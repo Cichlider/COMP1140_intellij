@@ -1,5 +1,11 @@
 package ws9a;
 
+enum Direction {
+    NORTH, SOUTH, EAST, WEST,
+    NORTHEAST, NORTHWEST, SOUTHEAST, SOUTHWEST
+}
+
+
 public abstract class GameEntity {
     protected int x;
     protected int y;
@@ -61,3 +67,30 @@ public abstract class GameEntity {
     }
 }
 
+class Player extends GameEntity{
+    private int health;
+
+    public Player(int x , int y, int health){
+        super(x,y);
+        this.health = health;
+    }
+
+    @Override
+    public void render(){
+        System.out.println("Rendering Player at (" + x + "," +") with health: " + health);
+    }
+}
+
+class Enemy extends GameEntity{
+    private int threatLevel;
+
+    public Enemy(int x ,int y ,int threatLevel){
+        super(x,y);
+        this.threatLevel = threatLevel;
+    }
+
+    @Override
+    public void render(){
+        System.out.println("Rendering Enemy at (" + x + "," + y + ") with threat level: " + threatLevel);
+    }
+}
