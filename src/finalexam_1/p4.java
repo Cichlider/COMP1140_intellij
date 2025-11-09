@@ -1,7 +1,4 @@
-package past_final_exam;
-import java.util.*;
-
-import java.util.*;
+package finalexam_1;
 
 /**
  * Final Exam - Question 4: Train Platform Simulation

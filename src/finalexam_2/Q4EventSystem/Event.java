@@ -1,4 +1,4 @@
-package past_final_exam.Q4EventSystem;
+package finalexam_2.Q4EventSystem;
 
 /**
  * Represents an event to be handled by an event handler function.

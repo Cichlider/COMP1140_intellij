@@ -1,4 +1,4 @@
-package past_final_exam;
+package finalexam_1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
