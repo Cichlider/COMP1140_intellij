@@ -2,84 +2,42 @@ package ws10a10b;
 import java.util.*;
 import static java.util.Arrays.asList;
 
-public class GraphNode<T> {
+public class GraphNode<T>{
     private final T value;
     private final List<GraphNode<T>> neighbours = new ArrayList<>();
-    private final Map<GraphNode<T>, Integer> neighboursCosts = new HashMap<>();
+    private final Map<GraphNode<T>,Integer> neighboursCosts =new HashMap<>();
 
-    // 构造函数
-    public GraphNode(T value, List<GraphNode<T>> neighbours, List<Integer> neighboursCosts) {
+
+    GraphNode(T value, List<GraphNode<T>> listnode, List<Integer> listvalue){
         this.value = value;
-        for (int i = 0; i < neighbours.size(); i++) {
-            var neighbour = neighbours.get(i);
-            var cost = neighboursCosts.get(i);
+        for (int i =0 ; i<listnode.size(); i++){
+            var a = listnode.get(i);
+            var b = listvalue.get(i);
 
-            this.neighbours.add(neighbour);
-            neighbour.neighbours.add(this);
+            this.neighbours.add(a);
+            a.neighbours.add(this);
 
-            this.neighboursCosts.put(neighbour, cost);
-            neighbour.neighboursCosts.put(this, cost);
+            this.neighboursCosts.put(a,b);
+            a.neighboursCosts.put(this,b);
         }
     }
 
-    // Getter方法
-    T getValue() {
-        return value;
+    T getValue(){
+        return this.value;
     }
 
-    Collection<GraphNode<T>> getNeighbours() {
-        return neighbours;
+    Collection<GraphNode<T>> getNeighbours(){
+        return this.neighbours;
     }
 
-    Map<GraphNode<T>, Integer> getNeighboursCosts() {
-        return neighboursCosts;
+    Map<GraphNode<T>,Integer> getNeighboursCosts(){
+        return this.neighboursCosts;
     }
 
     @Override
-    public String toString() {
+    public String toString(){
         return value.toString();
     }
-
-
-
-
-
-    /**
-     * Returns a list of graph node values resulting from an iterative
-     * DFS traversal of the graph starting from the node on which the method
-     * is invoked. The order in which adjacent nodes of a node are explored and
-     * enumerated should be based on the order in the Collection returned by
-     * getNeighbours().
-     */
-
-    public List<T> iterativeDFS() {
-        List<T> result = new ArrayList<>();           // 存储遍历结果
-        Set<GraphNode<T>> visited = new HashSet<>();   // 记录已访问的节点
-        Stack<GraphNode<T>> stack = new Stack<>();     // DFS用栈
-
-        stack.push(this);  // 从当前节点开始
-
-        while (!stack.isEmpty()) {
-            GraphNode<T> current = stack.pop();  // 取出栈顶节点
-
-            if (!visited.contains(current)) {
-                visited.add(current);              // 标记为已访问
-                result.add(current.getValue());    // 加入结果
-
-                // 关键：逆序添加邻居到栈中
-                // 这样才能保证正确的遍历顺序
-                List<GraphNode<T>> neighbours = new ArrayList<>(current.getNeighbours());
-                for (int i = neighbours.size() - 1; i >= 0; i--) {
-                    if (!visited.contains(neighbours.get(i))) {
-                        stack.push(neighbours.get(i));
-                    }
-                }
-            }
-        }
-
-        return result;
-    }
-    // ========== 8个示例图生成方法 ==========
 
     public static GraphNode<Integer> generateExampleGraph1() {
         return new GraphNode<>(5, asList(), asList());
@@ -101,7 +59,7 @@ public class GraphNode<T> {
     public static GraphNode<Integer> generateExampleGraph4() {
         var node1 = new GraphNode<>(1, asList(), asList());
         var node2 = new GraphNode<>(2, asList(node1), asList(2));
-        var node3 = new GraphNode<>(3, asList(node1, node2), asList(4, 1));
+        var node3 = new GraphNode<>(3, asList(node1,node2), asList(4, 1));
         return node3;
     }
 
@@ -109,8 +67,8 @@ public class GraphNode<T> {
         var nodeA = new GraphNode<>("A", asList(), asList());
         var nodeB = new GraphNode<>("B", asList(nodeA), asList(15));
         var nodeC = new GraphNode<>("C", asList(nodeB), asList(20));
-        var nodeD = new GraphNode<>("D", asList(nodeA, nodeC), asList(10, 5));
-        var nodeE = new GraphNode<>("E", asList(nodeD, nodeB), asList(11, 7));
+        var nodeD = new GraphNode<>("D", asList(nodeA,nodeC), asList(10,5));
+        var nodeE = new GraphNode<>("E", asList(nodeD,nodeB), asList(11,7));
         return nodeA;
     }
 
@@ -136,9 +94,9 @@ public class GraphNode<T> {
         var nodeE = new GraphNode<>("E", asList(nodeB), asList(5));
         var nodeF = new GraphNode<>("F", asList(nodeB), asList(12));
         var nodeG = new GraphNode<>("G", asList(nodeB), asList(16));
-        var nodeH = new GraphNode<>("H", asList(nodeC, nodeD), asList(11, 1));
-        var nodeI = new GraphNode<>("I", asList(nodeC, nodeG), asList(21, 4));
-        var nodeJ = new GraphNode<>("J", asList(nodeC, nodeH), asList(19, 3));
+        var nodeH = new GraphNode<>("H", asList(nodeC,nodeD), asList(11,1));
+        var nodeI = new GraphNode<>("I", asList(nodeC,nodeG), asList(21,4));
+        var nodeJ = new GraphNode<>("J", asList(nodeC,nodeH), asList(19,3));
         return nodeA;
     }
 
@@ -148,9 +106,39 @@ public class GraphNode<T> {
         var nodeC = new GraphNode<>("C", asList(nodeB), asList(5));
         var nodeD = new GraphNode<>("D", asList(nodeC), asList(17));
         var nodeE = new GraphNode<>("E", asList(nodeD), asList(5));
-        var nodeF = new GraphNode<>("F", asList(nodeC, nodeE), asList(12, 2));
+        var nodeF = new GraphNode<>("F", asList(nodeC,nodeE), asList(12,2));
         return nodeA;
     }
+
+    public List<T> iterativeDFS(){
+        List<T> result = new ArrayList<>();
+        Set<GraphNode<T>> visited = new HashSet<>();
+        Stack<GraphNode<T>> stack = new Stack<>();
+
+        stack.push(this);
+
+        while (!stack.isEmpty()){
+
+            GraphNode<T> current = stack.pop();
+
+            if(!visited.contains(current)){
+                visited.add(current);
+                result.add(current.getValue());
+
+                List<GraphNode<T>> neighbours = new ArrayList<>(current.getNeighbours());
+                for(int i = neighbours.size() - 1; i >= 0; i--){
+                    stack.push(neighbours.get(i));
+                }
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args){
+        Stack<Integer> a = new Stack<>();
+
+    }
+
 }
 
 

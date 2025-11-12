@@ -1,5 +1,7 @@
 package finalexam_1;
 
+
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -14,7 +16,7 @@ class TreeNode<T>{
     private TreeNode<T> left;
     private TreeNode<T> right;
 
-    public TreeNode(T value){
+    TreeNode(T value){
         this.left = null;
         this.value = value;
         this.right = null;
@@ -86,7 +88,7 @@ public class p2 {
         return lst;
     }
 
-    public static <T> ArrayList<T> p2helper (TreeNode<T> root, Comparator<T> comparator,ArrayList<T> lst){
+    public static <T> ArrayList<T> p2helper (TreeNode<T> root, Comparator<T> comparator, ArrayList<T> lst){
         if(root.getLeft()==null && root.getRight() == null){
             return lst;
         }else if (root.getLeft() !=null && root.getRight() != null){
